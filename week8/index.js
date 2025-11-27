@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
 
-// ✅ Database connection URL
 const MONGO_URI = 'mongodb+srv://admin:admin@cluster0.pm6cvws.mongodb.net/week8';
 
-// Connect to MongoDB
 mongoose.connect(MONGO_URI, {
     useUnifiedTopology: true,
     useNewUrlParser: true
@@ -11,7 +9,6 @@ mongoose.connect(MONGO_URI, {
 
 const db = mongoose.connection;
 
-// Connection event handlers
 db.on('error', function(err) {
     console.log("Error occurred during connection: " + err);
 });
@@ -20,9 +17,6 @@ db.once('open', async function() {
     console.log(`Connected to ${MONGO_URI}`);
     
     try {
-        // ==========================================
-        // Schema & Model
-        // ==========================================
         const PersonSchema = new mongoose.Schema({
             name: { type: String, required: true },
             age: Number,
@@ -32,9 +26,7 @@ db.once('open', async function() {
 
         const Person = mongoose.model('Person', PersonSchema, 'personCollection');
 
-        // ==========================================
-        // TASK 1: Add a single document
-        // ==========================================
+       // TASK 1: Add a single document
         console.log("\n=== TASK 1: Adding Single Document ===");
         const doc1 = new Person({
             name: 'Arpit',
@@ -46,9 +38,7 @@ db.once('open', async function() {
         await doc1.save();
         console.log("New person has been added to your database:", doc1.name);
 
-        // ==========================================
         // TASK 2: Adding multiple documents
-        // ==========================================
         console.log("\n=== TASK 2: Adding Multiple Documents ===");
         const manypersons = [
             { name: 'Simon', age: 42, Gender: "Male", Salary: 3456 },
@@ -60,9 +50,7 @@ db.once('open', async function() {
         const insertResult = await Person.insertMany(manypersons);
         console.log(`Data inserted: ${insertResult.length} documents added`);
 
-        // ==========================================
         // TASK 3: Fetch all documents (with limit 5)
-        // ==========================================
         console.log("\n=== TASK 3: Fetching All Documents (Limited to 5) ===");
         const allDocs = await Person.find()
             .sort({ Salary: 1 })        // ascending by salary
@@ -75,9 +63,7 @@ db.once('open', async function() {
             console.log(`Name: ${doc.name}, Age: ${doc.age}, Salary: ${doc.Salary}`);
         });
 
-        // ==========================================
-        // TASK 4: Find with filtering criteria
-        // ==========================================
+       // TASK 4: Find with filtering criteria
         console.log("\n=== TASK 4: Finding Females Age > 25 ===");
         const givenage = 25;
         const filteredDocs = await Person.find({ 
@@ -94,23 +80,17 @@ db.once('open', async function() {
             console.log(`Name: ${doc.name}, Age: ${doc.age}, Salary: ${doc.Salary}`);
         });
 
-        // ==========================================
         // TASK 5: Count total documents
-        // ==========================================
         console.log("\n=== TASK 5: Counting Total Documents ===");
         const totalCount = await Person.countDocuments().exec();
         console.log("Total documents Count:", totalCount);
 
-        // ==========================================
         // TASK 6: Delete documents (age >= 25)
-        // ==========================================
         console.log("\n=== TASK 6: Deleting Documents (Age >= 25) ===");
         const deleteResult = await Person.deleteMany({ age: { $gte: 25 } }).exec();
         console.log("Deleted documents count:", deleteResult.deletedCount);
 
-        // ==========================================
         // TASK 7: Update documents (set salary for females)
-        // ==========================================
         console.log("\n=== TASK 7: Updating Female Salaries to 5555 ===");
 
         // Add some female records back for demonstration
