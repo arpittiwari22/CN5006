@@ -1,0 +1,45 @@
+body {
+  background: #d2ccc5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.Calculator {
+  width: 400px;
+  height: 300px;
+  position: relative;
+  margin: 25px;
+}
+.ButtonStyle {
+  background-color: #0997f5;
+  border: 4;
+  color: white;
+  
+  height:60px;
+  width:60px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 24px;
+  cursor: pointer;
+
+
+}
+.Keypad {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  height: 80%;
+}
+.screen-row input{
+  width: 220px;
+  height:30px;
+  background: rgb(133, 32, 32);
+  border: 55px;
+  color: white;
+  padding: 10px;
+  text-align: left;
+  font-size: 20px;
+  }
